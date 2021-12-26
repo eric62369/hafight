@@ -30,10 +30,11 @@ int main(void)
     {
         // Update
         //----------------------------------------------------------------------------------
-        if (IsKeyDown(KEY_RIGHT)) ballPosition.x += 2.0f;
-        if (IsKeyDown(KEY_LEFT)) ballPosition.x -= 2.0f;
-        if (IsKeyDown(KEY_UP)) ballPosition.y -= 2.0f;
-        if (IsKeyDown(KEY_DOWN)) ballPosition.y += 2.0f;
+        float mag = 5.0f;
+        if (IsKeyDown(KEY_RIGHT)) ballPosition.x += mag;
+        if (IsKeyDown(KEY_LEFT)) ballPosition.x -= mag;
+        if (IsKeyDown(KEY_UP)) ballPosition.y -= mag;
+        if (IsKeyDown(KEY_DOWN)) ballPosition.y += mag;
         //----------------------------------------------------------------------------------
 
         // Draw
