@@ -1,15 +1,19 @@
-/*******************************************************************************************
-*
-*   raylib [core] example - Keyboard input
-*
-*   This example has been created using raylib 1.0 (www.raylib.com)
-*   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
-*
-*   Copyright (c) 2014 Ramon Santamaria (@raysan5)
-*
-********************************************************************************************/
-
+#include <stdio.h>
+#if defined(_DEBUG)
+#   include <crtdbg.h>
+#endif
+#include "vectorwar.h"
+#include "ggpo_perfmon.h"
 #include "raylib.h"
+
+// void
+// Syntax()
+// {
+//    MessageBox(NULL,
+
+//               L"Syntax: vectorwar.exe <local port> <num players> ('local' | <remote ip>:<remote port>)*\n",
+//               L"Could not start", MB_OK);
+// }
 
 int main(void)
 {
@@ -26,6 +30,9 @@ int main(void)
     //--------------------------------------------------------------------------------------
 
     // Main game loop
+
+    int start, next, now;
+   start = next = now = timeGetTime();
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
         // Update
@@ -35,6 +42,21 @@ int main(void)
         if (IsKeyDown(KEY_LEFT)) ballPosition.x -= mag;
         if (IsKeyDown(KEY_UP)) ballPosition.y -= mag;
         if (IsKeyDown(KEY_DOWN)) ballPosition.y += mag;
+
+
+
+
+
+
+         now = timeGetTime();
+         VectorWar_Idle(max(0, next - now - 1));
+         if (now >= next) {
+            VectorWar_RunFrame(hwnd);
+            next = now + (1000 / 60);
+         }
+
+
+
         //----------------------------------------------------------------------------------
 
         // Draw
@@ -49,6 +71,7 @@ int main(void)
 
         EndDrawing();
         //----------------------------------------------------------------------------------
+        
     }
 
     // De-Initialization
