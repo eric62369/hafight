@@ -1,21 +1,15 @@
-#include <stdio.h>
-#include <algorithm>
-#include <time.h>
-#if defined(_DEBUG)
-#   include <crtdbg.h>
-#endif
-#include "vectorwar.h"
-#include "ggpo_perfmon.h"
+/*******************************************************************************************
+*
+*   raylib [core] example - Keyboard input
+*
+*   This example has been created using raylib 1.0 (www.raylib.com)
+*   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
+*
+*   Copyright (c) 2014 Ramon Santamaria (@raysan5)
+*
+********************************************************************************************/
+
 #include "raylib.h"
-
-// void
-// Syntax()
-// {
-//    MessageBox(NULL,
-
-//               L"Syntax: vectorwar.exe <local port> <num players> ('local' | <remote ip>:<remote port>)*\n",
-//               L"Could not start", MB_OK);
-// }
 
 int main(void)
 {
@@ -26,33 +20,35 @@ int main(void)
 
     InitWindow(screenWidth, screenHeight, "raylib [core] example - keyboard input");
 
-    Vector2 ballPosition = { (float)screenWidth/2, (float)screenHeight/2 };
+    Vector2 fighters[2];
+    fighters[0] = { (float)screenWidth/2 + 100, (float)screenHeight/2 };
+    fighters[1] = { (float)screenWidth/2, (float)screenHeight/2 };
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
 
     // Main game loop
-
-    long long start, next, now;
-    start = next = now = time(NULL);
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
         // Update
         //----------------------------------------------------------------------------------
-
-
-
-
-
-         now = time(NULL);
-         VectorWar_Idle(std::max(0, (int) (next - now - 1)));
-         if (now >= next) {
-            VectorWar_RunFrame();
-            next = now + (1000 / 60);
-         }
-
-
-
+        if (IsKeyDown(KEY_RIGHT)) {
+            fighters[0].x += 2.0f;
+            fighters[1].x += 2.0f;
+        }
+        if (IsKeyDown(KEY_LEFT)) {
+            fighters[0].x -= 2.0f;
+            fighters[1].x -= 2.0f;
+        }
+        if (IsKeyDown(KEY_UP)) {
+            fighters[0].y -= 2.0f;
+            fighters[1].y -= 2.0f;
+        }
+        if (IsKeyDown(KEY_DOWN)) {
+            fighters[0].y += 2.0f;
+            fighters[1].y += 2.0f;
+        }
+        
         //----------------------------------------------------------------------------------
 
         // Draw
@@ -63,11 +59,11 @@ int main(void)
 
             DrawText("move the ball with arrow keys", 10, 10, 20, DARKGRAY);
 
-            DrawCircleV(ballPosition, 50, MAROON);
+            DrawCircleV(fighters[0], 25, MAROON);
+            DrawCircleV(fighters[1], 25, BLUE);
 
         EndDrawing();
         //----------------------------------------------------------------------------------
-        
     }
 
     // De-Initialization
