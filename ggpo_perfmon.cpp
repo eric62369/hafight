@@ -122,7 +122,7 @@ ggpo_perfmon_dlgproc(HWND hwndDlg, UINT uMsg, WPARAM, LPARAM lParam)
    return FALSE;
 }
 
-void
+int
 ggpoutil_perfmon_init(HWND hwnd)
 {
    _hwnd = hwnd;
@@ -132,6 +132,8 @@ ggpoutil_perfmon_init(HWND hwnd)
    _yellow_pen = CreatePen(PS_SOLID, 1, RGB(255, 235, 0));
    _grey_pen = CreatePen(PS_SOLID, 1, RGB(96, 96, 96));
    _pink_pen = CreatePen(PS_SOLID, 1, RGB(255, 0, 255));
+
+   return 0;
 }
 
 void

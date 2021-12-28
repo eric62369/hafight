@@ -6,6 +6,8 @@
 #include "gdi_renderer.h"
 #include "vectorwar.h"
 #include "ggpo_perfmon.h"
+#include "window.h"
+#include "include/raylib.h"
 
 //#define SYNC_TEST    // test: turn on synctest
 #define MAX_PLAYERS     64
@@ -206,13 +208,13 @@ vw_free_buffer(void *buffer)
  * the video renderer and creates a new network session.
  */
 void
-VectorWar_Init(HWND hwnd, unsigned short localport, int num_players, GGPOPlayer *players, int num_spectators)
+VectorWar_Init(unsigned short localport, int num_players, GGPOPlayer *players, int num_spectators)
 {
    GGPOErrorCode result;
-   renderer = new GDIRenderer(hwnd);
+   renderer = new RaylibRenderer();
 
    // Initialize the game state
-   gs.Init(hwnd, num_players);
+   gs.Init(num_players);
    ngs.num_players = num_players;
 
    // Fill in a ggpo callbacks structure to pass to start_session.
@@ -253,7 +255,7 @@ VectorWar_Init(HWND hwnd, unsigned short localport, int num_players, GGPOPlayer 
       }
    }
 
-   ggpoutil_perfmon_init(hwnd);
+   // ggpoutil_perfmon_init(hwnd);
    renderer->SetStatusText("Connecting to peers.");
 }
 
@@ -263,13 +265,13 @@ VectorWar_Init(HWND hwnd, unsigned short localport, int num_players, GGPOPlayer 
  * Create a new spectator session
  */
 void
-VectorWar_InitSpectator(HWND hwnd, unsigned short localport, int num_players, char *host_ip, unsigned short host_port)
+VectorWar_InitSpectator(unsigned short localport, int num_players, char *host_ip, unsigned short host_port)
 {
    GGPOErrorCode result;
-   renderer = new GDIRenderer(hwnd);
+   renderer = new RaylibRenderer();
 
    // Initialize the game state
-   gs.Init(hwnd, num_players);
+   gs.Init(num_players);
    ngs.num_players = num_players;
 
    // Fill in a ggpo callbacks structure to pass to start_session.
@@ -284,7 +286,7 @@ VectorWar_InitSpectator(HWND hwnd, unsigned short localport, int num_players, ch
 
    result = ggpo_start_spectating(&ggpo, &cb, "vectorwar", num_players, sizeof(int), localport, host_ip, host_port);
 
-   ggpoutil_perfmon_init(hwnd);
+   // ggpoutil_perfmon_init(hwnd);
 
    renderer->SetStatusText("Starting new spectator session");
 }
@@ -366,26 +368,24 @@ void VectorWar_AdvanceFrame(int inputs[], int disconnect_flags)
  * transparently.
  */
 int
-ReadInputs(HWND hwnd)
+ReadInputs()
 {
    static const struct {
       int      key;
       int      input;
    } inputtable[] = {
-      { VK_UP,       INPUT_THRUST },
-      { VK_DOWN,     INPUT_BREAK },
-      { VK_LEFT,     INPUT_ROTATE_LEFT },
-      { VK_RIGHT,    INPUT_ROTATE_RIGHT },
-      { 'D',         INPUT_FIRE },
-      { 'S',         INPUT_BOMB },
+      { KEY_UP,       INPUT_THRUST },
+      { KEY_DOWN,     INPUT_BREAK },
+      { KEY_LEFT,     INPUT_ROTATE_LEFT },
+      { KEY_RIGHT,    INPUT_ROTATE_RIGHT },
+      { KEY_D,        INPUT_FIRE },
+      { KEY_S,        INPUT_BOMB },
    };
    int i, inputs = 0;
 
-   if (GetForegroundWindow() == hwnd) {
-      for (i = 0; i < sizeof(inputtable) / sizeof(inputtable[0]); i++) {
-         if (GetAsyncKeyState(inputtable[i].key)) {
-            inputs |= inputtable[i].input;
-         }
+   for (i = 0; i < sizeof(inputtable) / sizeof(inputtable[0]); i++) {
+      if (IsKeyDown(inputtable[i].key)) {
+         inputs |= inputtable[i].input;
       }
    }
    
@@ -398,14 +398,14 @@ ReadInputs(HWND hwnd)
  * Run a single frame of the game.
  */
 void
-VectorWar_RunFrame(HWND hwnd)
+VectorWar_RunFrame()
 {
   GGPOErrorCode result = GGPO_OK;
   int disconnect_flags;
   int inputs[MAX_SHIPS] = { 0 };
 
   if (ngs.local_player_handle != GGPO_INVALID_HANDLE) {
-     int input = ReadInputs(hwnd);
+     int input = ReadInputs();
 #if defined(SYNC_TEST)
      input = rand(); // test: use random inputs to demonstrate sync testing
 #endif

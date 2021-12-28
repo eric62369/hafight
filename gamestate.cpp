@@ -27,15 +27,14 @@ distance(Position *lhs, Position *rhs)
  */
 
 void
-GameState::Init(HWND hwnd, int num_players)
+GameState::Init(int num_players)
 {
    int i, w, h, r;
 
-   GetClientRect(hwnd, &_bounds);
-   InflateRect(&_bounds, -8, -8);
-
-   w = _bounds.right - _bounds.left;
-   h = _bounds.bottom - _bounds.top;
+   // w = _bounds.right - _bounds.left;
+   // h = _bounds.bottom - _bounds.top;
+   w = 1000;
+   h = 1000;
    r = h / 4;
 
    _framenumber = 0;
@@ -54,8 +53,6 @@ GameState::Init(HWND hwnd, int num_players)
       _ships[i].health = STARTING_HEALTH;
       _ships[i].radius = SHIP_RADIUS;
    }
-
-   InflateRect(&_bounds, -8, -8);
 }
 
 void GameState::GetShipAI(int i, double *heading, double *thrust, int *fire)

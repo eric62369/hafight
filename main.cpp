@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <algorithm>
+#include <time.h>
 #if defined(_DEBUG)
 #   include <crtdbg.h>
 #endif
@@ -31,27 +33,21 @@ int main(void)
 
     // Main game loop
 
-    int start, next, now;
-   start = next = now = timeGetTime();
+    long long start, next, now;
+    start = next = now = time(NULL);
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
         // Update
         //----------------------------------------------------------------------------------
-        float mag = 5.0f;
-        if (IsKeyDown(KEY_RIGHT)) ballPosition.x += mag;
-        if (IsKeyDown(KEY_LEFT)) ballPosition.x -= mag;
-        if (IsKeyDown(KEY_UP)) ballPosition.y -= mag;
-        if (IsKeyDown(KEY_DOWN)) ballPosition.y += mag;
 
 
 
 
 
-
-         now = timeGetTime();
-         VectorWar_Idle(max(0, next - now - 1));
+         now = time(NULL);
+         VectorWar_Idle(std::max(0, (int) (next - now - 1)));
          if (now >= next) {
-            VectorWar_RunFrame(hwnd);
+            VectorWar_RunFrame();
             next = now + (1000 / 60);
          }
 
