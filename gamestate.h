@@ -48,11 +48,10 @@ struct GameState {
    void Init(int num_players);
    void GetFighterAI(int i, double *heading, double *thrust, int *fire);
    void ParseFighterInputs(int inputs, int i, double *heading, double *thrust, int *fire);
-   void MoveFighter(int i, int );
+   void MoveFighter(int i, double x, double y);
    void Update(int inputs[], int disconnect_flags);
 
    int         _framenumber;
-   RECT        _bounds;
    int         _num_fighters;
    Fighter     _fighters[MAX_FIGHTERS];
 };
