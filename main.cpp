@@ -63,16 +63,16 @@ int main(void)
         // Draw
         //----------------------------------------------------------------------------------
 
-        // BeginDrawing();
+        BeginDrawing();
 
-        //     ClearBackground(RAYWHITE);
+        ClearBackground(RAYWHITE);
 
-        //     DrawText("move the ball with arrow keys", 10, 10, 20, DARKGRAY);
+        DrawText("move the ball with arrow keys", 10, 10, 20, DARKGRAY);
 
-        //     DrawCircleV(fighters[0], 25, MAROON);
-        //     DrawCircleV(fighters[1], 25, BLUE);
+        DrawCircleV(fighters[0], 25, MAROON);
+        DrawCircleV(fighters[1], 25, BLUE);
 
-        // EndDrawing();
+        EndDrawing();
 
         //----------------------------------------------------------------------------------
     }

@@ -18,7 +18,7 @@ public:
    virtual void Draw(GameState &gs, NonGameState &ngs);
    virtual void SetStatusText(const char *text);
 
-protected:
+// protected:
 //    void RenderChecksum(int y, NonGameState::ChecksumInfo &info);
 //    void DrawFighter(int which, GameState &gamestate);
 //    void DrawConnectState(Fighter &fighter, PlayerConnectionInfo &info);
