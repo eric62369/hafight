@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <math.h>
-#include "ggponet.h"
+#include "include/ggponet.h"
 #include "hafight.h"
 #include "gamestate.h"
 
