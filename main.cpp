@@ -11,12 +11,13 @@
 
 #include <algorithm>
 #include <chrono>
+#include <string.h>
 #include "include/raylib.h"
 #include "hafight.h"
 
 using namespace std::chrono;
 
-int main(void)
+int main(int argc, char *argv[])
 {
     // Initialization
     //--------------------------------------------------------------------------------------
@@ -25,15 +26,14 @@ int main(void)
 
     InitWindow(screenWidth, screenHeight, "raylib [core] example - keyboard input");
 
-    Vector2 fighters[2];
-    fighters[0] = { (float)screenWidth/2 + 100, (float)screenHeight/2 };
-    fighters[1] = { (float)screenWidth/2, (float)screenHeight/2 };
-
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
-    unsigned short localport = 7000;
+    unsigned short localport = 7001;
     int num_players = 2;
     GGPOPlayer players[num_players];
+    if (strncmp(argv[argc - 1], "0", 1)) {
+        localport = 7000;
+    }
 
     HAFight_Init(localport, num_players, players, 0);
 
@@ -43,23 +43,7 @@ int main(void)
     {
         // Update
         //----------------------------------------------------------------------------------
-
-        // if (IsKeyDown(KEY_RIGHT)) {
-        //     fighters[0].x += 2.0f;
-        //     fighters[1].x += 2.0f;
-        // }
-        // if (IsKeyDown(KEY_LEFT)) {
-        //     fighters[0].x -= 2.0f;
-        //     fighters[1].x -= 2.0f;
-        // }
-        // if (IsKeyDown(KEY_UP)) {
-        //     fighters[0].y -= 2.0f;
-        //     fighters[1].y -= 2.0f;
-        // }
-        // if (IsKeyDown(KEY_DOWN)) {
-        //     fighters[0].y += 2.0f;
-        //     fighters[1].y += 2.0f;
-        // }
+        
         now = duration_cast< milliseconds >(system_clock::now().time_since_epoch()).count();
         HAFight_Idle(std::max(0, next - now - 1));
         if (now >= next) {

@@ -29,22 +29,14 @@ distance(Position *lhs, Position *rhs)
 void
 GameState::Init(int num_players)
 {
-   int i, w, h, r;
-   r = h / 4;
-
    _framenumber = 0;
    _num_fighters = num_players;
+   int i;
+
    for (i = 0; i < _num_fighters; i++) {
-      int heading = i * 360 / num_players;
-      double cost, sint, theta;
-
-      theta = (double)heading * PI / 180;
-      cost = ::cos(theta);
-      sint = ::sin(theta);
-
-      _fighters[i].position.x = (w / 2) + r * cost;
-      _fighters[i].position.y = (h / 2) + r * sint;
-      _fighters[i].heading = (heading + 180) % 360;
+      _fighters[i].position.x = 100.0;
+      _fighters[i].position.y = 100.0;
+      _fighters[i].heading = 0;
       _fighters[i].health = STARTING_HEALTH;
       _fighters[i].radius = FIGHTER_RADIUS;
    }
