@@ -220,9 +220,9 @@ HAFight_Init(unsigned short localport, int num_players, GGPOPlayer *players, int
    cb.log_game_state  = ha_log_game_state;
 
 #if defined(SYNC_TEST)
-   result = ggpo_start_synctest(&ggpo, &cb, "vectorwar", num_players, sizeof(int), 1);
+   result = ggpo_start_synctest(&ggpo, &cb, "hafight", num_players, sizeof(int), 1);
 #else
-   result = ggpo_start_session(&ggpo, &cb, "vectorwar", num_players, sizeof(int), localport);
+   result = ggpo_start_session(&ggpo, &cb, "hafight", num_players, sizeof(int), localport);
 #endif
 
    // automatically disconnect clients after 3000 ms and start our count-down timer

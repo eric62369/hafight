@@ -23,7 +23,7 @@ public:
 //    void DrawFighter(int which, GameState &gamestate);
 //    void DrawConnectState(Fighter &fighter, PlayerConnectionInfo &info);
 
-//    char           _status[1024];
+   char           _status[1024];
 };
 
 #endif
