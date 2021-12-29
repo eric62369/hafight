@@ -1,3 +1,4 @@
+#include "stdio.h"
 #include "include/raylib.h"
 #include "inputreader.h"
 

@@ -82,17 +82,11 @@ void GameState::MoveFighter(int which, double x, double y)
    fighter->heading = (int)x;
 
    if (y) {
-      double dx = y * ::cos(degtorad(x));
-      double dy = y * ::sin(degtorad(x));
+      double dx = x;
+      double dy = y;
 
       fighter->velocity.dx += dx;
       fighter->velocity.dy += dy;
-      double mag = sqrt(fighter->velocity.dx * fighter->velocity.dx + 
-                       fighter->velocity.dy * fighter->velocity.dy);
-      if (mag > FIGHTER_MAX_THRUST) {
-         fighter->velocity.dx = (fighter->velocity.dx * FIGHTER_MAX_THRUST) / mag;
-         fighter->velocity.dy = (fighter->velocity.dy * FIGHTER_MAX_THRUST) / mag;
-      }
    }
    ggpo_log(ggpo, "new fighter velocity: (dx:%.4f dy:%2.f).\n", fighter->velocity.dx, fighter->velocity.dy);
 

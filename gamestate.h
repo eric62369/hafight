@@ -15,15 +15,15 @@
 #define FIGHTER_RADIUS            15
 #define FIGHTER_WIDTH              8
 #define FIGHTER_TUCK               3
-#define FIGHTER_THRUST             0.06
-#define FIGHTER_MAX_THRUST         4.0
+#define FIGHTER_THRUST             1
+#define FIGHTER_MAX_THRUST         1
 #define FIGHTER_BREAK_SPEED        0.6
 #define BULLET_SPEED            5
 #define MAX_BULLETS             30
 #define BULLET_COOLDOWN         8
 #define BULLET_DAMAGE           10
 
-#define MAX_FIGHTERS               4
+#define MAX_FIGHTERS               2
 
 struct Position {
    double x, y;
