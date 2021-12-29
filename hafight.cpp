@@ -7,6 +7,7 @@
 #include "nongamestate.h"
 #include "include/ggponet.h"
 #include "raylibrenderer.h"
+#include "inputreader.h"
 
 //#define SYNC_TEST    // test: turn on synctest
 #define MAX_PLAYERS     64
@@ -192,7 +193,6 @@ ha_free_buffer(void *buffer)
    free(buffer);
 }
 
-
 /*
  * HAFight_Init --
  *
@@ -345,39 +345,6 @@ void HAFight_AdvanceFrame(int inputs[], int disconnect_flags)
          handles[count++] = ngs.players[i].handle;
       }
    }
-}
-
-
-/*
- * ReadInputs --
- *
- * Read the inputs for player 1 from the keyboard.  We never have to
- * worry about player 2.  GGPO will handle remapping his inputs 
- * transparently.
- */
-int
-ReadInputs()
-{
-   static const struct {
-      int      key;
-      int      input;
-   } inputtable[] = {
-      { VK_UP,       INPUT_THRUST },
-      { VK_DOWN,     INPUT_BREAK },
-      { VK_LEFT,     INPUT_ROTATE_LEFT },
-      { VK_RIGHT,    INPUT_ROTATE_RIGHT },
-      { 'D',         INPUT_FIRE },
-      { 'S',         INPUT_BOMB },
-   };
-   int i, inputs = 0;
-
-    for (i = 0; i < sizeof(inputtable) / sizeof(inputtable[0]); i++) {
-        if (GetAsyncKeyState(inputtable[i].key)) {
-        inputs |= inputtable[i].input;
-        }
-    }
-   
-   return inputs;
 }
 
 /*

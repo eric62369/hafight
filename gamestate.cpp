@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 #include "include/ggponet.h"
-#include "hafight.h"
+#include "inputreader.h"
 #include "gamestate.h"
 
 extern GGPOSession *ggpo;

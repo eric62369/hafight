@@ -9,9 +9,12 @@
 *
 ********************************************************************************************/
 
-#include "raylib.h"
-#include "ggponet.h"
+#include <algorithm>
+#include <chrono>
+#include "include/raylib.h"
 #include "hafight.h"
+
+using namespace std::chrono;
 
 int main(void)
 {
@@ -33,7 +36,9 @@ int main(void)
     GGPOPlayer players[num_players];
 
     HAFight_Init(localport, num_players, players, 0);
+
     // Main game loop
+    int start, next, now;
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
         // Update
@@ -55,31 +60,25 @@ int main(void)
         //     fighters[0].y += 2.0f;
         //     fighters[1].y += 2.0f;
         // }
-
-        
+        now = duration_cast< milliseconds >(system_clock::now().time_since_epoch()).count();
+        HAFight_Idle(std::max(0, next - now - 1));
+        if (now >= next) {
+            HAFight_RunFrame();
+            next = now + (1000 / 60);
+        }
         
         //----------------------------------------------------------------------------------
 
         // Draw
         //----------------------------------------------------------------------------------
-
-        BeginDrawing();
-
-        ClearBackground(RAYWHITE);
-
-        DrawText("move the ball with arrow keys", 10, 10, 20, DARKGRAY);
-
-        DrawCircleV(fighters[0], 25, MAROON);
-        DrawCircleV(fighters[1], 25, BLUE);
-
-        EndDrawing();
-
+        
         //----------------------------------------------------------------------------------
     }
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
     CloseWindow();        // Close window and OpenGL context
+    HAFight_Exit();
     //--------------------------------------------------------------------------------------
 
     return 0;
