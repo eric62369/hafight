@@ -69,31 +69,38 @@ ha_on_event_callback(GGPOEvent *info)
    switch (info->code) {
    case GGPO_EVENTCODE_CONNECTED_TO_PEER:
       ngs.SetConnectState(info->u.connected.player, Synchronizing);
+      renderer->SetStatusText("Event code connected to peer");
       break;
    case GGPO_EVENTCODE_SYNCHRONIZING_WITH_PEER:
       progress = 100 * info->u.synchronizing.count / info->u.synchronizing.total;
       ngs.UpdateConnectProgress(info->u.synchronizing.player, progress);
+      renderer->SetStatusText("Synchronizing...");
       break;
    case GGPO_EVENTCODE_SYNCHRONIZED_WITH_PEER:
       ngs.UpdateConnectProgress(info->u.synchronized.player, 100);
+      renderer->SetStatusText("Synchronize Complete");
       break;
    case GGPO_EVENTCODE_RUNNING:
       ngs.SetConnectState(Running);
-      renderer->SetStatusText("");
+      renderer->SetStatusText("Running");
       break;
    case GGPO_EVENTCODE_CONNECTION_INTERRUPTED:
       ngs.SetDisconnectTimeout(info->u.connection_interrupted.player,
                                timeGetTime(),
                                info->u.connection_interrupted.disconnect_timeout);
+      renderer->SetStatusText("Interrupted");
       break;
    case GGPO_EVENTCODE_CONNECTION_RESUMED:
       ngs.SetConnectState(info->u.connection_resumed.player, Running);
+      renderer->SetStatusText("Resumed connection");
       break;
    case GGPO_EVENTCODE_DISCONNECTED_FROM_PEER:
       ngs.SetConnectState(info->u.disconnected.player, Disconnected);
+      renderer->SetStatusText("Disconnect");
       break;
    case GGPO_EVENTCODE_TIMESYNC:
       Sleep(1000 * info->u.timesync.frames_ahead / 60);
+      renderer->SetStatusText("TimeSync");
       break;
    }
    return true;
