@@ -36,35 +36,45 @@ int main(int argc, char *argv[])
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
-    unsigned short localport = 7001;
+    unsigned short localport;
     int num_players = 2;
-    wchar_t wide_ip_buffer[128];
-    unsigned int wide_ip_buffer_size = (unsigned int)ARRAYSIZE(wide_ip_buffer);
-    GGPOPlayer players[num_players];
+    GGPOPlayer players[GGPO_MAX_SPECTATORS + GGPO_MAX_PLAYERS];
     if (strncmp(argv[1], "0", 1)) {
         localport = 7000;
 
         players[0].size = sizeof(players[0]);
-        players[0].player_num = 0 + 1;
+        players[0].player_num = 1;
         players[0].type = GGPO_PLAYERTYPE_LOCAL;
         
+        char ip_buffer[128];
+        players[1].size = sizeof(players[1]);
+        players[1].player_num = 2;
         players[1].type = GGPO_PLAYERTYPE_REMOTE;
-        // if (swscanf_s(argv[2], L"%[^:]:%hd", wide_ip_buffer, wide_ip_buffer_size, &players[1].u.remote.port) != 2) {
-        //     return 1;
-        // }
-        strncpy(players[1].u.remote.ip_address, argv[2], sizeof(players[1].u.remote.ip_address));
+        if (sscanf(argv[2], "%[^:]:%hd", argv[2], ip_buffer, &players[1].u.remote.port) != 2) {
+            printf("invalid ip address: %s\n", argv[2]);
+            return 1;
+        }
+        strncpy(players[1].u.remote.ip_address, ip_buffer, sizeof(players[1].u.remote.ip_address));
+        
+        printf(players[1].u.remote.ip_address);
     } else {
         localport = 7001;
 
         players[1].size = sizeof(players[1]);
-        players[1].player_num = 1 + 1;
+        players[1].player_num = 2;
         players[1].type = GGPO_PLAYERTYPE_LOCAL;
         
+        char ip_buffer[128];
+        players[0].size = sizeof(players[0]);
+        players[0].player_num = 1;
         players[0].type = GGPO_PLAYERTYPE_REMOTE;
-        // if (swscanf_s(argv[2], L"%[^:]:%hd", wide_ip_buffer, wide_ip_buffer_size, &players[1].u.remote.port) != 2) {
-        //     return 1;
-        // }
-        strncpy(players[0].u.remote.ip_address, argv[2], sizeof(players[0].u.remote.ip_address));
+        if (sscanf(argv[2], "%[^:]:%hd", argv[2], ip_buffer, &players[0].u.remote.port) != 2) {
+            printf("invalid ip address: %s\n", argv[2]);
+            return 1;
+        }
+
+        strncpy(players[0].u.remote.ip_address, ip_buffer, sizeof(players[0].u.remote.ip_address));
+        printf(players[0].u.remote.ip_address);
     }
 
 
