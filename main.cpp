@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
     //--------------------------------------------------------------------------------------
     unsigned short localport;
     int num_players = 2;
-    GGPOPlayer players[GGPO_MAX_SPECTATORS + GGPO_MAX_PLAYERS];
+    GGPOPlayer players[2];
     if (strncmp(argv[1], "0", 1)) {
         localport = 7000;
 
@@ -46,17 +46,15 @@ int main(int argc, char *argv[])
         players[0].player_num = 1;
         players[0].type = GGPO_PLAYERTYPE_LOCAL;
         
-        char ip_buffer[128];
         players[1].size = sizeof(players[1]);
         players[1].player_num = 2;
         players[1].type = GGPO_PLAYERTYPE_REMOTE;
-        if (sscanf(argv[2], "%[^:]:%hd", argv[2], ip_buffer, &players[1].u.remote.port) != 2) {
-            printf("invalid ip address: %s\n", argv[2]);
-            return 1;
-        }
-        strncpy(players[1].u.remote.ip_address, ip_buffer, sizeof(players[1].u.remote.ip_address));
+        players[1].u.remote.port = 7001;
         
-        printf(players[1].u.remote.ip_address);
+        strncpy(players[1].u.remote.ip_address, argv[2], sizeof(players[1].u.remote.ip_address));
+        
+        printf("%s\n", players[1].u.remote.ip_address);
+        printf("%d\n", players[1].u.remote.port);
     } else {
         localport = 7001;
 
@@ -64,17 +62,15 @@ int main(int argc, char *argv[])
         players[1].player_num = 2;
         players[1].type = GGPO_PLAYERTYPE_LOCAL;
         
-        char ip_buffer[128];
         players[0].size = sizeof(players[0]);
         players[0].player_num = 1;
         players[0].type = GGPO_PLAYERTYPE_REMOTE;
-        if (sscanf(argv[2], "%[^:]:%hd", argv[2], ip_buffer, &players[0].u.remote.port) != 2) {
-            printf("invalid ip address: %s\n", argv[2]);
-            return 1;
-        }
+        players[0].u.remote.port = 7000;
 
-        strncpy(players[0].u.remote.ip_address, ip_buffer, sizeof(players[0].u.remote.ip_address));
-        printf(players[0].u.remote.ip_address);
+        strncpy(players[0].u.remote.ip_address, argv[2], sizeof(players[0].u.remote.ip_address));
+
+        printf("%s\n", players[0].u.remote.ip_address);
+        printf("%d\n", players[0].u.remote.port);
     }
 
 
