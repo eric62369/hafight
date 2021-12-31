@@ -17,6 +17,8 @@
 #include "include/raylib.h"
 #include "hafight.h"
 
+#include <stdlib.h>
+
 #define ARRAYSIZE(a) ((sizeof(a) / sizeof(*(a))) / static_cast<size_t>(!(sizeof(a) % sizeof(*(a)))))
 
 using namespace std::chrono;
@@ -27,6 +29,10 @@ int main(int argc, char *argv[])
         printf("Needs 2 arguments\n");
         return 1;
     }
+
+    char quark[]="quark.log=1"; 
+    putenv(quark);
+
     // Initialization
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
@@ -43,11 +49,11 @@ int main(int argc, char *argv[])
         localport = 7000;
 
         players[0].size = sizeof(GGPOPlayer);
-        players[0].player_num = 2;
+        players[0].player_num = 1;
         players[0].type = GGPO_PLAYERTYPE_LOCAL;
         
         players[1].size = sizeof(GGPOPlayer);
-        players[1].player_num = 1;
+        players[1].player_num = 2;
         players[1].type = GGPO_PLAYERTYPE_REMOTE;
         players[1].u.remote.port = 7001;
         strcpy(players[1].u.remote.ip_address, "127.0.0.1");
@@ -60,13 +66,13 @@ int main(int argc, char *argv[])
         localport = 7001;
 
         players[0].size = sizeof(GGPOPlayer);
-        players[0].player_num = 1;
+        players[0].player_num = 2;
         players[0].type = GGPO_PLAYERTYPE_REMOTE;
         players[0].u.remote.port = 7000;
         strcpy(players[0].u.remote.ip_address, "127.0.0.1");
 
         players[1].size = sizeof(GGPOPlayer);
-        players[1].player_num = 2;
+        players[1].player_num = 1;
         players[1].type = GGPO_PLAYERTYPE_LOCAL;
 
         printf("%s\n", players[0].u.remote.ip_address);
