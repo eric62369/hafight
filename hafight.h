@@ -13,7 +13,7 @@
 /*
  * HAFight_Init --
  *
- * Initialize the vector war game.  This initializes the game state and
+ * Initialize the fight game.  This initializes the game state and
  * the video renderer and creates a new network session.
  */
 void HAFight_Init(unsigned short localport, int num_players, GGPOPlayer *players, int num_spectators);

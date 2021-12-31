@@ -203,7 +203,7 @@ ha_free_buffer(void *buffer)
 /*
  * HAFight_Init --
  *
- * Initialize the vector war game.  This initializes the game state and
+ * Initialize the fight game.  This initializes the game state and
  * the video renderer and creates a new network session.
  */
 void
@@ -242,6 +242,7 @@ HAFight_Init(unsigned short localport, int num_players, GGPOPlayer *players, int
    for (i = 0; i < num_players + num_spectators; i++) {
       GGPOPlayerHandle handle;
       result = ggpo_add_player(ggpo, players + i, &handle);
+      printf("\n%d %d %d\n", result, i, num_players + num_spectators);
       ngs.players[i].handle = handle;
       ngs.players[i].type = players[i].type;
       if (players[i].type == GGPO_PLAYERTYPE_LOCAL) {
@@ -266,7 +267,7 @@ void
 HAFight_InitSpectator(unsigned short localport, int num_players, char *host_ip, unsigned short host_port)
 {
    GGPOErrorCode result;
-//    renderer = new RaylibRenderer();
+   renderer = new RaylibRenderer();
 
    // Initialize the game state
    gs.Init(num_players);
@@ -282,7 +283,7 @@ HAFight_InitSpectator(unsigned short localport, int num_players, char *host_ip, 
    cb.on_event        = ha_on_event_callback;
    cb.log_game_state  = ha_log_game_state;
 
-   result = ggpo_start_spectating(&ggpo, &cb, "vectorwar", num_players, sizeof(int), localport, host_ip, host_port);
+   result = ggpo_start_spectating(&ggpo, &cb, "hafight", num_players, sizeof(int), localport, host_ip, host_port);
 
    renderer->SetStatusText("Starting new spectator session");
 }

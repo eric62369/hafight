@@ -38,16 +38,16 @@ int main(int argc, char *argv[])
     //--------------------------------------------------------------------------------------
     unsigned short localport;
     int num_players = 2;
-    GGPOPlayer players[2];
+    GGPOPlayer players[GGPO_MAX_SPECTATORS + GGPO_MAX_PLAYERS];
     if (strncmp(argv[1], "0", 1)) {
         localport = 7000;
 
         players[0].size = sizeof(GGPOPlayer);
-        players[0].player_num = 1;
+        players[0].player_num = 2;
         players[0].type = GGPO_PLAYERTYPE_LOCAL;
         
         players[1].size = sizeof(GGPOPlayer);
-        players[1].player_num = 0;
+        players[1].player_num = 1;
         players[1].type = GGPO_PLAYERTYPE_REMOTE;
         players[1].u.remote.port = 7001;
         strcpy(players[1].u.remote.ip_address, "127.0.0.1");
@@ -60,24 +60,26 @@ int main(int argc, char *argv[])
         localport = 7001;
 
         players[0].size = sizeof(GGPOPlayer);
-        players[0].player_num = 0;
+        players[0].player_num = 1;
         players[0].type = GGPO_PLAYERTYPE_REMOTE;
         players[0].u.remote.port = 7000;
         strcpy(players[0].u.remote.ip_address, "127.0.0.1");
 
         players[1].size = sizeof(GGPOPlayer);
-        players[1].player_num = 1;
+        players[1].player_num = 2;
         players[1].type = GGPO_PLAYERTYPE_LOCAL;
 
         printf("%s\n", players[0].u.remote.ip_address);
         printf("%d\n", players[0].u.remote.port);
+        // printf("%s\n", players[0].u.remote.ip_address);
+        // printf("%d\n", localport);
     }
-
-
     HAFight_Init(localport, num_players, players, 0);
 
     // Main game loop
-    int start, next, now;
+    int next, now;
+    next = duration_cast< milliseconds >(system_clock::now().time_since_epoch()).count();
+    now = next;
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
         // Update
@@ -85,6 +87,9 @@ int main(int argc, char *argv[])
 
         now = duration_cast< milliseconds >(system_clock::now().time_since_epoch()).count();
         HAFight_Idle(std::max(0, next - now - 1));
+
+        // printf("%d %d %d\n", now, next, next - now - 1);
+
         if (now >= next) {
             HAFight_RunFrame();
             next = now + (1000 / 60);

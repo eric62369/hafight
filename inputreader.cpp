@@ -25,7 +25,7 @@ ReadInputs()
    };
    int i, inputs = 0;
 
-   for (i = 0; i < sizeof(inputtable) / sizeof(inputtable[0]); i++) {
+   for (i = 0; i < (int) (sizeof(inputtable) / sizeof(inputtable[0])); i++) {
       if (IsKeyDown(inputtable[i].key)) {
       inputs |= inputtable[i].input;
       }

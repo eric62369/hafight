@@ -6,20 +6,6 @@
 
 extern GGPOSession *ggpo;
 
-static double
-degtorad(double deg)
-{
-   return PI * deg / 180;
-}
-
-static double
-distance(Position *lhs, Position *rhs)
-{
-   double x = rhs->x - lhs->x;
-   double y = rhs->y - lhs->y;
-   return sqrt(x*x + y*y);
-}
-
 /*
  * InitGameState --
  *
@@ -80,6 +66,8 @@ void GameState::MoveFighter(int which, double x, double y)
    ggpo_log(ggpo, "calculation of new fighter coordinates: (thrust:%.4f heading:%.4f).\n", x, y);
 
    fighter->heading = (int)x;
+
+   printf("%f %f\n", x, y);
 
    if (y) {
       double dx = x;

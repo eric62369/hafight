@@ -20,7 +20,7 @@ RaylibRenderer::Draw(GameState &gs, NonGameState &ngs) {
 
     DrawText(_status, 10, 10, 20, DARKGRAY);
 
-    DrawCircleV({ (float) gs._fighters[0].position.x, (float) gs._fighters[0].position.y }, 20, MAROON);
+    DrawCircleV({ (float) gs._fighters[0].position.x, (float) gs._fighters[0].position.y }, 12, MAROON);
     DrawCircleV({ (float) gs._fighters[1].position.x, (float) gs._fighters[1].position.y }, 12, BLUE);
 
     EndDrawing();
